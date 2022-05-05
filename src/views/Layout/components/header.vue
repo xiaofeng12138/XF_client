@@ -1,51 +1,53 @@
 <template>
-<el-row>
-  <el-col :span="12">
-  <span class="menu-btn" @click="switchAside">
-    <svg-icon icon="menuBtn" className="icon-menu-btn"></svg-icon>
-  </span>
-  </el-col>
-  <el-col :span="12">
-    <span class="logout" @click="logout">
-      <svg-icon icon="logout" className="icon-logout"></svg-icon>
-    </span>
-    <div class="face-info">
-      <img src="../../../assets/face.png" :alt="username">
-      <span class="name">{{ username }}</span>
-    </div>
-  </el-col>
-</el-row>
+  <el-row>
+    <el-col :span="12">
+      <span class="menu-btn" @click="switchAside">
+        <svg-icon icon="menuBtn" className="icon-menu-btn"></svg-icon>
+      </span>
+    </el-col>
+    <el-col :span="12">
+      <span class="logout" @click="logout">
+        <svg-icon icon="logout" className="icon-logout"></svg-icon>
+      </span>
+      <div class="face-info">
+        <img src="../../../assets/face.png" :alt="username" />
+        <span class="name">{{ username }}</span>
+      </div>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
-import {getUsername,removeCookie,removeUsername} from "@/utils/cookies";
+import { getUsername, removeCookie, removeUsername } from "@/utils/cookies";
 export default {
-  data(){
-     return {
-        username:getUsername()
-     }
+  data() {
+    return {
+      username: getUsername()
+    };
   },
-  methods:{
-    switchAside(){
-      this.$store.commit('app/SET_COLLAPSE')
+  methods: {
+    switchAside() {
+      this.$store.commit("app/SET_COLLAPSE");
     },
-    logout(){
-        this.$confirm('是否确认退出', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          center:true
-        }).then(() => {
-           removeCookie()
-           removeUsername()
-           this.$message.success('退出成功')
-           this.$router.push('/login')
-        }).catch(() => {});
+    logout() {
+      this.$confirm("是否确认退出", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        center: true
+      })
+        .then(() => {
+          removeCookie();
+          removeUsername();
+          this.$message.success("退出成功");
+          this.$router.push("/login");
+        })
+        .catch(() => {});
     }
-  },
-}
+  }
+};
 </script>
 <style lang="scss" scoped>
-.menu-btn { 
+.menu-btn {
   display: inline-block;
   padding-top: 24px;
   cursor: pointer;

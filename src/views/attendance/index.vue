@@ -1,5 +1,25 @@
 <template>
   <div class="wrap">
+    <div class="search_wrap">
+      <el-form :inline="true" :model="searchModel" class="demo-form-inline">
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="员工姓名:" label-width="120">
+              <el-input
+                v-model="searchModel.staff_name"
+                placeholder="请输入员工姓名"
+                style="width:300px"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-button type="success" @click="queryStaffList(1)"
+              >查询</el-button
+            >
+          </el-col>
+        </el-row>
+      </el-form>
+    </div>
     <div class="tableList">
       <el-table border :data="tableData" style="width:100%">
         <template v-for="(item, index) in tableConfig">
@@ -77,7 +97,7 @@
 
 <script>
 import { getRole } from "@/utils/cookies.js";
-import { queryVacatelist, delvacate } from "@/api/vacate.js";
+import { GetPunchList, DelPunch } from "@/api/punch.js";
 export default {
   data() {
     return {
@@ -89,8 +109,7 @@ export default {
       pageNum: 1,
       pageSize: 10,
       searchModel: {
-        staff_name: "",
-        staff_status: ""
+        staff_name: ""
       },
       tableData: [],
       tableConfig: [
@@ -105,20 +124,19 @@ export default {
         },
 
         {
-          label: "开始日期",
+          label: "打卡日期",
+          prop: "start_date",
+          FormatterFn: params => {
+            return params.start_date.split(" ")[0];
+          }
+        },
+        {
+          label: "上班打卡时间",
           prop: "start_date"
         },
         {
-          label: "结束日期",
+          label: "下班打卡时间",
           prop: "end_date"
-        },
-        {
-          label: "请假原因",
-          prop: "vacate_desc"
-        },
-        {
-          label: "提交日期",
-          prop: "create_time"
         },
         {
           slotName: "operate",
@@ -138,20 +156,19 @@ export default {
     },
 
     handleDelete(index, row) {
-      this.$confirm("是否确认当前数据", "提示", {
+      this.$confirm("是否确认删除当前数据", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         center: true
       })
         .then(() => {
           let data = {
-            staff_id: row.staff_id,
-            vacate_id: row.vacate_id
+            attend_id: row.attend_id
           };
-          delvacate(data).then(res => {
+          DelPunch(data).then(res => {
             if (res.data.code == "200") {
               this.$message.success(res.data.msg);
-              this.queryStaffList();
+              this.queryStaffList(1);
             } else {
               this.$message.error(res.data.msg);
             }
@@ -161,15 +178,19 @@ export default {
     },
 
     //职位列表查询
-    queryStaffList() {
-      queryVacatelist().then(res => {
+    queryStaffList(page) {
+      let requestData = {
+        staff_name: this.searchModel.staff_name,
+        pageNum: page
+      };
+      GetPunchList(requestData).then(res => {
         this.tableData = res.data.data;
         this.total = res.data.count;
       });
     }
   },
   mounted() {
-    this.queryStaffList();
+    this.queryStaffList(1);
   }
 };
 </script>

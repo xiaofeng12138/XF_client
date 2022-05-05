@@ -1,18 +1,18 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Layout from "../views/Layout"
+import Layout from "../views/Layout";
 Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
     redirect: "Login",
-    hidden: true
+    hidden: true,
   },
   {
     path: "/login",
     name: "Login",
     hidden: true,
-    component: () => import("../views/Login/index.vue")
+    component: () => import("../views/Login/index.vue"),
   },
   {
     path: "/home",
@@ -20,7 +20,7 @@ const routes = [
     meta: {
       title: "控制台",
       icon: "console",
-      iconClass: "icon_console"
+      iconClass: "icon_console",
     },
     component: Layout,
     children: [
@@ -28,10 +28,10 @@ const routes = [
         path: "/consoleIndex",
         name: "ConsoleIndex",
         meta: {
-          title: "首页"
+          title: "首页",
         },
         component: () => import("../views/Console/index.vue"),
-      }
+      },
     ],
   },
   {
@@ -40,7 +40,7 @@ const routes = [
     meta: {
       title: "部门管理",
       icon: "console",
-      iconClass: "icon_console"
+      iconClass: "icon_console",
     },
     component: Layout,
     children: [
@@ -48,7 +48,7 @@ const routes = [
         path: "/departmentIndex",
         name: "DepartmentIndex",
         meta: {
-          title: "部门列表"
+          title: "部门列表",
         },
         component: () => import("../views/department/index.vue"),
       },
@@ -56,10 +56,10 @@ const routes = [
         path: "/departmentAdd",
         name: "DepartmentAdd",
         meta: {
-          title: "部门添加"
+          title: "部门添加",
         },
         component: () => import("../views/department/departAdd.vue"),
-      }
+      },
     ],
   },
   {
@@ -68,7 +68,7 @@ const routes = [
     meta: {
       title: "职位管理",
       icon: "console",
-      iconClass: "icon_console"
+      iconClass: "icon_console",
     },
     component: Layout,
     children: [
@@ -76,7 +76,7 @@ const routes = [
         path: "/jobIndex",
         name: "JobIndex",
         meta: {
-          title: "职位列表"
+          title: "职位列表",
         },
         component: () => import("../views/job/index.vue"),
       },
@@ -84,10 +84,10 @@ const routes = [
         path: "/jobAdd",
         name: "JobAdd",
         meta: {
-          title: "职位添加"
+          title: "职位添加",
         },
         component: () => import("../views/job/jobadd.vue"),
-      }
+      },
     ],
   },
   {
@@ -96,7 +96,7 @@ const routes = [
     meta: {
       title: "员工管理",
       icon: "console",
-      iconClass: "icon_console"
+      iconClass: "icon_console",
     },
     component: Layout,
     children: [
@@ -104,7 +104,7 @@ const routes = [
         path: "/staffIndex",
         name: "StaffIndex",
         meta: {
-          title: "员工列表"
+          title: "员工列表",
         },
         component: () => import("../views/staff/index.vue"),
       },
@@ -112,19 +112,19 @@ const routes = [
         path: "/staffAdd",
         name: "StaffAdd",
         meta: {
-          title: "员工添加"
+          title: "员工添加",
         },
         component: () => import("../views/staff/staffadd.vue"),
-      }
+      },
     ],
   },
   {
     path: "/vacate",
     name: "Vacate",
     meta: {
-      title: "请假管理",
+      title: "考勤管理",
       icon: "console",
-      iconClass: "icon_console"
+      iconClass: "icon_console",
     },
     component: Layout,
     children: [
@@ -132,7 +132,7 @@ const routes = [
         path: "/vacateIndex",
         name: "VacateIndex",
         meta: {
-          title: "请假列表"
+          title: "请假列表",
         },
         component: () => import("../views/vacate/index.vue"),
       },
@@ -140,10 +140,26 @@ const routes = [
         path: "/vacateAdd",
         name: "VacateAdd",
         meta: {
-          title: "新增请假"
+          title: "新增请假",
         },
         component: () => import("../views/vacate/vacateadd.vue"),
-      }
+      },
+      {
+        path: "/attendanceAdd",
+        name: "AttendanceAdd",
+        meta: {
+          title: "考勤列表",
+        },
+        component: () => import("../views/attendance/index.vue"),
+      },
+      {
+        path: "/attendanceList",
+        name: "AttendanceList",
+        meta: {
+          title: "考勤打卡",
+        },
+        component: () => import("../views/attendance/attendance.vue"),
+      },
     ],
   },
   {
@@ -152,7 +168,7 @@ const routes = [
     meta: {
       title: "用户管理",
       icon: "console",
-      iconClass: "icon_console"
+      iconClass: "icon_console",
     },
     component: Layout,
     children: [
@@ -160,7 +176,7 @@ const routes = [
         path: "/userIndex",
         name: "UserIndex",
         meta: {
-          title: "用户列表"
+          title: "用户列表",
         },
         component: () => import("../views/user/index.vue"),
       },
@@ -169,12 +185,12 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  routes
+  routes,
 });
 
-const originalPush = VueRouter.prototype.push
+const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
-  return originalPush.call(this, location).catch(err => err)
-}
+  return originalPush.call(this, location).catch((err) => err);
+};
 
 export default router;
